@@ -37,7 +37,7 @@ public class JobService {
                 .orElseThrow(() -> new NotFoundException("Vaga de emprego não encontrada com ID: " + id));
     }
 
-    public Job save(JobRequestDTO dto, Long createdByUserId) {
+    public JobResponseDTO save(JobRequestDTO dto, Long createdByUserId) {
         Optional<User> byId = this.userRepository.findById(createdByUserId);
         if (byId.isEmpty()) throw new NotFoundException("Empresa não encontrada");
 
@@ -46,14 +46,14 @@ public class JobService {
 
         Job job = getJob(dto, createdByUser);
 
-        return repository.save(job);
+        Job save = repository.save(job);
+        return JobResponseDTO.from(save);
     }
 
     public JobResponseDTO atualizar(Long id, JobRequestDTO dto) {
-        Job jobToUpdate = repository.findById(id).orElseThrow(() -> new NotFoundException("Job não encontrado"));
+        Job jobToUpdate = repository.findById(id).orElseThrow(() -> new NotFoundException("Vaga não encontrado"));
 
         jobToUpdate.setTitle(dto.title());
-        jobToUpdate.setCompany(dto.company());
         jobToUpdate.setLocation(dto.location());
         jobToUpdate.setCategory(dto.category());
         jobToUpdate.setType(dto.type());
@@ -66,7 +66,7 @@ public class JobService {
     }
 
     public void deletar(Long id) {
-        Job jobToDelete = repository.findById(id).orElseThrow(() -> new NotFoundException("Job não encontrado"));
+        Job jobToDelete = repository.findById(id).orElseThrow(() -> new NotFoundException("Vaga não encontrado"));
 
         jobToDelete.setActive(false);
 
@@ -77,7 +77,7 @@ public class JobService {
         Job job = new Job();
 
         job.setTitle(dto.title());
-        job.setCompany(dto.company());
+        job.setCompany(createdByUser.getName());
         job.setLocation(dto.location());
         job.setCategory(dto.category());
         job.setType(dto.type());

@@ -13,10 +13,6 @@ public record JobRequestDTO(
         @Size(min = 5, max = 100, message = "O título deve ter entre 5 e 100 caracteres.")
         String title,
 
-        @NotBlank(message = "O nome da empresa é obrigatório.")
-        @Size(min = 2, max = 100, message = "O nome da empresa deve ter entre 2 e 100 caracteres.")
-        String company,
-
         @NotBlank(message = "A localização é obrigatória.")
         @Size(min = 2, max = 100, message = "A localização deve ter entre 2 e 100 caracteres.")
         String location,

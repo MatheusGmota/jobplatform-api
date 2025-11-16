@@ -34,8 +34,8 @@ public class JobController {
     @PostMapping
     public ResponseEntity<Object> create(
             @Valid @RequestBody JobRequestDTO dto,
-            @RequestParam(value = "id-user", required = true) Long createdByUserId) {
-        Job job = service.save(dto, createdByUserId);
+            @RequestParam(value = "company-id", required = true) Long createdByUserId) {
+        JobResponseDTO job = service.save(dto, createdByUserId);
         return ResponseEntity.status(201).body(job);
     }
 
