@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +28,17 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
     public LoginResponseDTO login(LoginRequestDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        User user = (User) auth.getPrincipal();
-        var token = tokenService.generateToken((User) auth.getPrincipal());
+            User user = (User) auth.getPrincipal();
+            var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return new LoginResponseDTO(user.getId(), user.getUsername(), token);
+            return new LoginResponseDTO(user.getId(), user.getUsername(), token);
+        } catch (AuthenticationException e) {
+            throw new BusinessException("Usuário ou senha incorretos");
+        }
     }
 
     public RegisterResponseDTO register(@Valid RegisterRequestDTO data) {
