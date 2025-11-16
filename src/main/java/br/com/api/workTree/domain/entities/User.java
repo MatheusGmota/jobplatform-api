@@ -44,12 +44,6 @@ public class User implements UserDetails {
     @Column(name = "user_role", nullable = false)
     private UserRole role;
 
-    public User(String name, String password, UserRole role) {
-        this.name = name;
-        this.password = password;
-        this.role = role;
-    }
-
     @ElementCollection
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "skill")
