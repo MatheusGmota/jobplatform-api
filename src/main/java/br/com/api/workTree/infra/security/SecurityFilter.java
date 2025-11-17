@@ -1,6 +1,6 @@
 package br.com.api.workTree.infra.security;
 
-import br.com.api.workTree.repositories.UserRepository;
+import br.com.api.workTree.services.AuthorizationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,21 +18,23 @@ import java.io.IOException;
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
-    UserRepository userRepository;
+    AuthorizationService service;
 
     @Autowired
     TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         var token = this.recoverToken(request);
 
         if (token != null) {
             var email = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByEmail(email).orElse(null);
 
-            assert user != null;
+            UserDetails user = service.loadUserByUsername(email);
+
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);

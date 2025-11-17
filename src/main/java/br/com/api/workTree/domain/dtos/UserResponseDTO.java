@@ -10,7 +10,7 @@ public record UserResponseDTO(
         Long id,
         String name,
         String email,
-        UserRole role,
+        UserRole type,
         List<String> skills,
         String description,
         LocalDateTime createdAt,

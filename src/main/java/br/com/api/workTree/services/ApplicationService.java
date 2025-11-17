@@ -54,6 +54,6 @@ public class ApplicationService {
 
     public ApplicationResponseDTO obterPorId(Long id) {
         return repository.findById(id).map(ApplicationResponseDTO::from)
-                .orElseThrow(() -> new NotFoundException("Applica: " + id));
+                .orElseThrow(() -> new NotFoundException("Nenhuma candidatura encontrada: " + id));
     }
 }

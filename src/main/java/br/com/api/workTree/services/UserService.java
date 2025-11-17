@@ -33,8 +33,10 @@ public class UserService {
     public UserResponseDTO editar(UserRequestDTO user, Long id) {
         User userToUpdate = repository.findById(id).orElseThrow(() -> new NotFoundException("Nenhum usuário encontrado para o ID: " + id));
 
+        String encryptedPassword = new BCryptPasswordEncoder().encode(user.password());
+
         userToUpdate.setName(user.name());
-        userToUpdate.setPassword(user.password());
+        userToUpdate.setPassword(encryptedPassword);
         userToUpdate.setEmail(user.email());
         userToUpdate.setDescription(user.description());
         userToUpdate.setSkills(user.skills());
