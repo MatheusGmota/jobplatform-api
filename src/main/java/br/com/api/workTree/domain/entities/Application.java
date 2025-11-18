@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class Application {
     @Id
     @GeneratedValue(generator = "application", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id_application", nullable = false)
+    @Column(name = "application_id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,7 +32,7 @@ public class Application {
     private User candidate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "app_status",nullable = false)
     private ApplicationStatus status = ApplicationStatus.PENDING;
 
     @CreationTimestamp

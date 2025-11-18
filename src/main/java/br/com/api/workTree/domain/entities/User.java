@@ -28,10 +28,10 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "user", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id_user", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "user_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -49,6 +49,7 @@ public class User implements UserDetails {
     @Column(name = "skill")
     private List<String> skills = new ArrayList<>();
 
+    @Column(name = "user_description")
     private String description;
 
     @CreationTimestamp
