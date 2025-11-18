@@ -10,6 +10,7 @@ import br.com.api.workTree.domain.errors.NotFoundException;
 import br.com.api.workTree.repositories.JobRepository;
 import br.com.api.workTree.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +25,12 @@ public class JobService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<JobResponseDTO> obterTodos() {
-        // return repository.findByActiveTrue().stream().map(JobResponseDTO::from).toList();
-        return repository.findAll()
-                .stream()
-                .map(JobResponseDTO::from)
-                .toList();
+    public List<JobResponseDTO> obterTodos(Pageable pageable) {
+         return repository.findByActiveTrue(pageable).stream().map(JobResponseDTO::from).toList();
+//        return repository.findAll()
+//                .stream()
+//                .map(JobResponseDTO::from)
+//                .toList();
     }
 
     public JobResponseDTO obterPorId(Long id) {

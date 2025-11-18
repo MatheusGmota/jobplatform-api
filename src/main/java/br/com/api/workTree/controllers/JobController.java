@@ -2,10 +2,10 @@ package br.com.api.workTree.controllers;
 
 import br.com.api.workTree.domain.dtos.JobRequestDTO;
 import br.com.api.workTree.domain.dtos.JobResponseDTO;
-import br.com.api.workTree.domain.entities.Job;
 import br.com.api.workTree.services.JobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +20,8 @@ public class JobController {
     private JobService service;
 
     @GetMapping
-    public ResponseEntity<Object> getAll() {
-        List<JobResponseDTO> response = service.obterTodos();
+    public ResponseEntity<Object> getAll(Pageable pageable) {
+        List<JobResponseDTO> response = service.obterTodos(pageable);
         return ResponseEntity.ok(response);
     }
 

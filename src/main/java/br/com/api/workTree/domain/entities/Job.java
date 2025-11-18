@@ -23,24 +23,25 @@ public class Job {
     @Column(name = "job_id", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "job_title", nullable = false)
     private String title;
 
     @Column(nullable = false)
     private String company;
 
-    @Column(nullable = false)
+    @Column(name = "job_location",nullable = false)
     private String location;
 
     @Column(nullable = false)
     private String category;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "job_type", nullable = false)
     private JobType type;
 
     private String salary;
 
+    @Column(name = "job_description", nullable = false)
     private String description;
 
     @ElementCollection
