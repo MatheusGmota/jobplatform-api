@@ -11,15 +11,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@Entity(name = "TB_APPLICATION")
+@Entity(name = "TB_APPLICATIONS")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SequenceGenerator(name = "application", sequenceName = "SQ_TB_APPLICATION", allocationSize = 1)
+//@SequenceGenerator(name = "application", sequenceName = "SQ_TB_APPLICATION", allocationSize = 1)
 public class Application {
     @Id
-    @GeneratedValue(generator = "application", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "application_id", nullable = false)
     private Long id;
 
