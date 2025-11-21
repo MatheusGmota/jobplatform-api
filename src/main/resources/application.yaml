@@ -1,3 +1,56 @@
 spring:
   application:
     name: workTree
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PWD}
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.OracleDialect
+
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USER}
+    password: ${MAIL_PWD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  rabbitmq:
+    addresses: ${AMQP_ADDRESS}
+    queue: ${AMQP_QUEUE}
+
+deepseek:
+  api:
+    key: ${DEEPSEEK_API_KEY}
+  base-url: ${DEEPSEEK_URL:https://api.deepseek.com/v1}
+
+api:
+  secret:
+    token:
+      secret: ${JWT_SECRET}
+
+info:
+  app:
+    version: 1.0
+
+springdoc:
+  info:
+    description: API para o projeto workTree
+    title: WorkTree
+
+server:
+  port: ${PORT:8080}
