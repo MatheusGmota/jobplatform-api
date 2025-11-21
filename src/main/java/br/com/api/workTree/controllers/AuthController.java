@@ -20,23 +20,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody @Valid LoginRequestDTO data) {
-        try {
-            LoginResponseDTO login = userService.login(data);
-            return ResponseEntity.status(201).body(login);
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getCause());
-        }
+        LoginResponseDTO login = userService.login(data);
+        return ResponseEntity.status(201).body(login);
     }
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody @Valid RegisterRequestDTO data) {
-        try {
-            RegisterResponseDTO register = userService.register(data);
-            return ResponseEntity.ok(register);
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getCause());
-        }
+        RegisterResponseDTO register = userService.register(data);
+        return ResponseEntity.ok(register);
     }
 }
