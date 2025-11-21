@@ -6,8 +6,10 @@ import br.com.api.workTree.domain.entities.Application;
 import br.com.api.workTree.domain.entities.Job;
 import br.com.api.workTree.domain.entities.User;
 import br.com.api.workTree.domain.enums.ApplicationStatus;
+import br.com.api.workTree.domain.errors.AiResponseException;
 import br.com.api.workTree.domain.errors.BusinessException;
 import br.com.api.workTree.domain.errors.NotFoundException;
+import br.com.api.workTree.domain.model.EmailModel;
 import br.com.api.workTree.repositories.ApplicationRepository;
 import br.com.api.workTree.repositories.JobRepository;
 import br.com.api.workTree.repositories.UserRepository;
@@ -16,6 +18,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationService {
+
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+    @Autowired
+    private DeepseekService deepseekService;
 
     @Autowired
     private ApplicationRepository repository;
@@ -34,6 +42,9 @@ public class ApplicationService {
         Job job = jobRepository.findById(dto.jobId())
                 .orElseThrow(() -> new NotFoundException("Vaga não encontrada"));
 
+        // verificar se vaga está ativa
+        if (!job.getActive()) throw new BusinessException("A vaga não está mais disponível");
+
         User candidate = userRepository.findById(dto.candidateId())
                 .orElseThrow(() -> new NotFoundException("Candidato não encontrado"));
 
@@ -45,15 +56,29 @@ public class ApplicationService {
 
         Application saved = repository.save(app);
 
-//        // enviar mensagem para fila (assíncrono)
-//        ApplicationMessage msg = new ApplicationMessage(saved.getId(), job.getId(), candidate.getId());
-//        producer.sendApplicationCreated(msg);
+        String text = "Confirmação de inscrição na vaga de" + job.getTitle() + ". Fique atento as atualização pelo email";
+        try {
+//            String text = aiService.generateApplicationConfirmation(candidate, job, app);
+            text = deepseekService.generateApplicationConfirmation(candidate, job, app);
+
+        } catch (AiResponseException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        } finally {
+            EmailModel emailModel = new EmailModel(
+                    candidate.getEmail(),
+                    "Confirmação de candidatura para a vaga: " + job.getTitle(),
+                    text,
+                    null);
+
+            emailSenderService.sendEmail(emailModel);
+        }
 
         return ApplicationResponseDTO.from(saved);
     }
 
     public ApplicationResponseDTO obterPorId(Long id) {
         return repository.findById(id).map(ApplicationResponseDTO::from)
-                .orElseThrow(() -> new NotFoundException("Nenhuma candidatura encontrada: " + id));
+                .orElseThrow(() -> new NotFoundException("Nenhuma candidatura encontrada"));
     }
 }

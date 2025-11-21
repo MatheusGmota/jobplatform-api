@@ -23,11 +23,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SequenceGenerator(name = "user", sequenceName = "SQ_TB_USERS", allocationSize = 1)
+//@SequenceGenerator(name = "user", sequenceName = "SQ_TB_USERS", allocationSize = 1)
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(generator = "user", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long id;
 
@@ -45,7 +45,7 @@ public class User implements UserDetails {
     private UserRole role;
 
     @ElementCollection
-    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "tb_user_skills", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "skill")
     private List<String> skills = new ArrayList<>();
 

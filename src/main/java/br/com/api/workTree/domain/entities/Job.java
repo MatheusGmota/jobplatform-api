@@ -15,11 +15,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SequenceGenerator(name = "job", sequenceName = "SQ_TB_JOBS", allocationSize = 1)
+//@SequenceGenerator(name = "job", sequenceName = "SQ_TB_JOBS", allocationSize = 1)
 public class Job {
 
     @Id
-    @GeneratedValue(generator = "job", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column(name = "job_id", nullable = false)
     private Long id;
 
@@ -45,7 +45,7 @@ public class Job {
     private String description;
 
     @ElementCollection
-    @CollectionTable(name = "job_requirements", joinColumns = @JoinColumn(name = "job_id"))
+    @CollectionTable(name = "tb_job_requirements", joinColumns = @JoinColumn(name = "job_id"))
     @Column(name = "requirement")
     private List<String> requirements = new ArrayList<>();
 
