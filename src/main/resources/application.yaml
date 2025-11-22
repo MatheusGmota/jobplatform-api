@@ -1,6 +1,6 @@
 spring:
   application:
-    name: workTree
+    name: jobplatform
 
   datasource:
     url: ${DB_URL}

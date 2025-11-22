@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.api</groupId>
-	<artifactId>workTree</artifactId>
+	<artifactId>jobplatform</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>workTree</name>
 	<description>Projeto para GlobalSolutions</description>
