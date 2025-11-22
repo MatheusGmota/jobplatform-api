@@ -6,7 +6,7 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PWD}
-    driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -15,7 +15,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.OracleDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
